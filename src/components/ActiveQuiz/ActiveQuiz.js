@@ -2,7 +2,7 @@ import React from 'react';
 import './ActiveQuiz.sass';
 import AnswersList from "../AnswersList/AnswersList";
 
-const ActiveQuiz = ({answers, question, onAnswerClickHandle, answerNumber, quizLength, answerState}) => {
+const ActiveQuiz = ({answers, question, onAnswerClickHandle, answerNumber, quizLength, state}) => {
 
   return (
     <div className="ActiveQuiz">
@@ -19,7 +19,7 @@ const ActiveQuiz = ({answers, question, onAnswerClickHandle, answerNumber, quizL
       <AnswersList
         answers={answers}
         onAnswerClickHandle={onAnswerClickHandle}
-        state={answerState}
+        state={state}
       />
     </div>
   );

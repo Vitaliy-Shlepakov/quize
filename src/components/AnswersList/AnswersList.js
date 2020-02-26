@@ -2,7 +2,7 @@ import React from 'react';
 import './AnswersList.sass';
 import AnswerItem from "../AnswerItem/AnswerItem";
 
-const AnswersList = ({answers, onAnswerClickHandle, answerState}) => {
+const AnswersList = ({answers, onAnswerClickHandle, state}) => {
   return (
     <div>
       <ul className="AnswersList">
@@ -12,7 +12,7 @@ const AnswersList = ({answers, onAnswerClickHandle, answerState}) => {
               answer={answer}
               key={index}
               onAnswerClickHandle={onAnswerClickHandle}
-              answerState={answerState}
+              state={state ? state[answer.id] : null}
             />
           })
         }
