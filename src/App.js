@@ -1,10 +1,11 @@
 import React from 'react';
 import Layout from "./hoc/Layout/Layout";
+import Quiz from "./containers/Quize/Quiz";
 
 function App() {
   return (
     <Layout>
-      <h1>Layout</h1>
+      <Quiz/>
     </Layout>
   );
 }
