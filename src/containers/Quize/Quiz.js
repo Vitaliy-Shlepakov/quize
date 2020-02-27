@@ -102,7 +102,6 @@ class Quiz extends Component {
 
   render() {
     const { quiz, isFinished, activeQuestion, answerState, results } = this.state;
-    console.log(results, 'results');
     return (
       <div className="Quiz">
         <div className="Quiz__Wrapper">

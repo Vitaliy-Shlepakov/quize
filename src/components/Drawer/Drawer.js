@@ -2,16 +2,39 @@ import React, {Component} from 'react';
 import './Drawer.sass';
 import classNames from 'classnames';
 import Backdrop from "../UI/Backdrop/Backdrop";
+import { NavLink } from 'react-router-dom';
 
 class Drawer extends Component {
 
-  links = [1,2,3];
+  links = [
+    {
+      to: '/',
+      label: 'Список',
+      exact: true
+    },
+    {
+      to: '/auth',
+      label: 'Авторизация',
+      exact: true
+    },
+    {
+      to: '/quiz-creator',
+      label: 'Создать тест',
+      exact: true
+    },
+  ];
 
   renderLinks = () => {
     return this.links.map((link, index) => {
       return (
         <li key={index} className="Drawer__Item">
-          <a href="#" className="Drawer__Link">{link}</a>
+          <NavLink
+            to={link.to}
+            exact={link.exact}
+            onClick={this.props.handleBackDrop}
+          >
+            { link.label}
+          </NavLink>
         </li>
       )
     })
