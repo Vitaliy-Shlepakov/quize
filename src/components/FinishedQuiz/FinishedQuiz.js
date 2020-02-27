@@ -2,6 +2,7 @@ import React from 'react';
 import './FinishedQuiz.sass';
 import classNames from 'classnames';
 import Button from "../UI/Button/Button";
+import {Link} from "react-router-dom";
 
 const FinishedQuiz = ({results, quiz, onRetry}) => {
 
@@ -49,12 +50,9 @@ const FinishedQuiz = ({results, quiz, onRetry}) => {
        >
         Повторить
        </Button>
-       <Button
-        onClick={() => {}}
-        customClass="Success"
-       >
-        Перейти в список тестов
-       </Button>
+       <Link to='/'>
+         <Button customClass="Success">Перейти к списку тестов</Button>
+       </Link>
       </div>
     </div>
   );
