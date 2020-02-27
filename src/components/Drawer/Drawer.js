@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
 import './Drawer.sass';
 import classNames from 'classnames';
+import Backdrop from "../UI/Backdrop/Backdrop";
 
 class Drawer extends Component {
 
-  links = [1,2,3]
+  links = [1,2,3];
 
   renderLinks = () => {
     return this.links.map((link, index) => {
@@ -17,9 +18,9 @@ class Drawer extends Component {
   };
 
   render() {
-    const { isOpen } = this.props;
+    const { isOpen, handleBackDrop } = this.props;
     return (
-      <div>
+      <>
         <nav className={classNames({
           'Drawer': true,
           'Drawer--Close': !isOpen
@@ -28,7 +29,12 @@ class Drawer extends Component {
             { this.renderLinks() }
           </ul>
         </nav>
-      </div>
+        {
+          isOpen &&  <Backdrop
+            onClick={handleBackDrop}
+          />
+        }
+      </>
     );
   }
 }

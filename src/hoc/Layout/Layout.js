@@ -17,12 +17,19 @@ class Layout extends Component {
     })
   };
 
+  handleBackDrop = () => {
+    this.setState({isMenuOpen: false})
+  };
+
   render() {
     const {isMenuOpen} = this.state;
 
     return (
       <div className="Layout">
-        <Drawer isOpen={isMenuOpen}/>
+        <Drawer
+          isOpen={isMenuOpen}
+          handleBackDrop={this.handleBackDrop}
+        />
         <MenuToggle
           onToggle={this.handlerToggleMenu}
           isOpen={isMenuOpen}
