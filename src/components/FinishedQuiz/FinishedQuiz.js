@@ -1,25 +1,60 @@
 import React from 'react';
 import './FinishedQuiz.sass';
+import classNames from 'classnames';
+import Button from "../UI/Button/Button";
 
-const FinishedQuiz = () => {
+const FinishedQuiz = ({results, quiz, onRetry}) => {
+
+  const counterOfSuccess = () => {
+    let counter = 0;
+    for(let key in results){
+      if(results[key] === 'success'){
+        counter ++
+      }
+    }
+    return counter
+  }
+
   return (
     <div className="FinishedQuiz">
       <h1>Результат:</h1>
        <ul>
-         <li className="FinishedQuiz__Item FinishedQuiz__Item--Success">
-           <strong>1.&nbsp;</strong>
-           How are you?
-           <i className="fa fa-times"></i>
-         </li>
-         <li className="FinishedQuiz__Item FinishedQuiz__Item--Error">
-           <strong>2.&nbsp;</strong>
-           I am okey
-           <i className="fa fa-check"></i>
-         </li>
+         {
+           quiz.map((quizItem, index) => {
+             return(
+               <li className="FinishedQuiz__Item" key={index}>
+                 <strong>{index + 1}.&nbsp;</strong>
+                 {quizItem.question}
+                 <i className={classNames({
+                   'fa': true,
+                   'fa-times error': results[quizItem.quizId] === 'error',
+                   'fa-check success': results[quizItem.quizId] === 'success'
+                 })}></i>
+               </li>
+             )
+           })
+         }
+
        </ul>
-      <p>правильно 4 из 10</p>
-      <div>
-        <button>Повторить</button>
+      <p>
+        правильно&nbsp;
+        { counterOfSuccess() }
+        &nbsp;из&nbsp;
+        { quiz.length }
+      </p>
+      <div className="FinishedQuiz__Action">
+       <Button
+        onClick={onRetry}
+        customClass="Primary"
+       >
+        Повторить
+       </Button>
+       <Button
+        onClick={() => {}}
+        customClass="Success"
+       >
+        Перейти в список тестов
+       </Button>
       </div>
     </div>
   );

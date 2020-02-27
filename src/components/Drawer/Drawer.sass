@@ -1,0 +1,35 @@
+.Drawer
+  position: fixed
+  left: 0
+  top: 0
+  bottom: 0
+  width: 80%
+  max-width: 300px
+  padding: 20px 10px
+  box-sizing: border-box
+  background-color: rgba(255, 255, 255, .8)
+  z-index: 90
+  transform: translateY(0)
+  transition: transform .2s
+
+.Drawer--Close
+  transform: translateX(-300px)
+
+.Drawer__List
+  letter-spacing: normal
+  margin: 0
+  padding: 0
+
+.Drawer__Item
+  margin-bottom: 15px
+
+.Drawer__Link
+  color: #363f54
+  font-size: 22px
+  text-decoration: none
+  transition: all .2s
+
+  &:hover,
+  &.active
+    opacity: .7
+
