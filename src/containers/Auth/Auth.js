@@ -11,6 +11,7 @@ const validateEmail = email => {
 class Auth extends Component {
 
   state = {
+    isFromValid: "false",
     formControls: {
       email: {
         value: '',
@@ -58,8 +59,17 @@ class Auth extends Component {
     control.touched = true;
     control.valid = this.validateControl(control.value, control.validationRules);
 
+    //проверка полей на валидность с установкой флага
+    let isFromValid = true;
+    for(let key in formControls){
+      isFromValid = formControls[key].valid && isFromValid;
+    }
+
     formControls[controlName] = control;
-    this.setState({formControls})
+    this.setState({
+      formControls,
+      isFromValid
+    })
   };
 
   validateControl = (value, validationRules) => {
@@ -82,7 +92,7 @@ class Auth extends Component {
   };
 
   render() {
-    const {formControls: {email, password}} = this.state;
+    const {formControls: {email, password}, isFromValid} = this.state;
     return (
       <div className="Auth">
         <div className="Auth__Wrap">
@@ -109,10 +119,18 @@ class Auth extends Component {
               shouldValidate={true}
             />
             <div className="Auth__Actions">
-              <Button customClass="Success" onClick={this.handlerLogin}>
+              <Button
+                customClass="Success"
+                onClick={this.handlerLogin}
+                disabled={!isFromValid ? 'disabled': ''}
+              >
                 Войти
               </Button>
-              <Button customClass="Primary" onClick={this.handlerRegister}>
+              <Button
+                customClass="Primary"
+                onClick={this.handlerRegister}
+                disabled={!isFromValid ? 'disabled': ''}
+              >
                 Зарегистрироваться
               </Button>
             </div>
