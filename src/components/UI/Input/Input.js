@@ -6,12 +6,14 @@ import classNames from 'classnames';
 
 const Input = ({
                  type = 'text',
-                 customClass, label,
+                 customClass,
+                 label,
                  value,
                  onChange,
                  errorMessage,
                  touched,
-                 shouldValidate
+                 shouldValidate,
+                 valid
               }) => {
 
   const isInvalid = (valid, touched, shouldValidate) => {
@@ -40,7 +42,7 @@ const Input = ({
         className="Input__Field"
       />
       {
-        isInvalid() && <span className="Input__Error">{errorMessage}</span>
+        touched && !valid && <span className="Input__Error">{errorMessage}</span>
       }
     </div>
   );
