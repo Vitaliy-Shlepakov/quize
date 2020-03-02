@@ -4,6 +4,7 @@ import Button from "../../components/UI/Button/Button";
 import { createControl, validate, validateForm } from '../../form/formFramework';
 import Input from "../../components/UI/Input/Input";
 import Select from "../../components/UI/Select/Select";
+import axios from 'axios';
 
 function createFormControls(){
   return {
@@ -62,7 +63,7 @@ class QuizCreator extends Component {
         { text: option1.value, id: option1.id },
         { text: option2.value, id: option2.id },
         { text: option3.value, id: option3.id },
-        { text: option4.values, id: option4.id },
+        { text: option4.value, id: option4.id },
       ]
     };
     quiz.push(questionItem);
@@ -74,9 +75,22 @@ class QuizCreator extends Component {
     })
   };
 
-  handlerCreateQuestion = (value) => {
-    console.log(this.state.quiz, 'QUIZE');
-    console.log(this.state, 'STATE');
+  handlerCreateQuestion = async () => {
+    try{
+      const response = await axios.post('https://guiz-eaa7e.firebaseio.com/guizes.json', {
+        ...this.state.quiz
+      });
+      console.log(response);
+
+      this.setState({
+        quiz: [],
+        rightAnswer: 1,
+        isFormValid: false,
+        formControls: createFormControls()
+      })
+    }catch (e) {
+      console.log(e)
+    }
   };
 
   renderInputs = () => {
