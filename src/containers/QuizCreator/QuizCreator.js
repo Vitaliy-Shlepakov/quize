@@ -49,10 +49,34 @@ class QuizCreator extends Component {
 
   handlerAddQuestion = (e) => {
     e.preventDefault();
+
+    const {formControls: {question, option1, option2, option3, option4}, rightAnswerId} = this.state;
+    const quiz = [ ...this.state.quiz];
+    const quizIndex = quiz.length + 1;
+
+    const questionItem = {
+      id: quizIndex,
+      question: question.value,
+      rightAnswerId,
+      answers: [
+        { text: option1.value, id: option1.id },
+        { text: option2.value, id: option2.id },
+        { text: option3.value, id: option3.id },
+        { text: option4.values, id: option4.id },
+      ]
+    };
+    quiz.push(questionItem);
+    this.setState({
+      quiz,
+      rightAnswer: 1,
+      isFormValid: false,
+      formControls: createFormControls()
+    })
   };
 
   handlerCreateQuestion = (value) => {
-    console.log(value);
+    console.log(this.state.quiz, 'QUIZE');
+    console.log(this.state, 'STATE');
   };
 
   renderInputs = () => {
@@ -99,7 +123,7 @@ class QuizCreator extends Component {
 
 
   render() {
-    const { formControls, rightAnswer } = this.state;
+    const { rightAnswer } = this.state;
 
     return (
       <div className="QuizCreator">
