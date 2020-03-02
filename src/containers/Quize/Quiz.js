@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import './Quize.sass';
 import ActiveQuiz from "../../components/ActiveQuiz/ActiveQuiz";
 import FinishedQuiz from "../../components/FinishedQuiz/FinishedQuiz";
+import axios from '../../axiosInstance/axiosInstance';
+import Loader from "../../components/UI/Loader/Loader";
 
 class Quiz extends Component {
 
@@ -10,35 +12,33 @@ class Quiz extends Component {
     answerState: {},
     isFinished: false,
     results: {},   //{[id]: success or error}
-    quiz: [
-      {
-        quizId: 1,
-        question: 'Какого цвета небо',
-        rightAnswerId: 4,
-        answers: [
-          {text: 'Черный', id: 1},
-          {text: 'Красный', id: 2},
-          {text: 'Зеленый', id: 3},
-          {text: 'Синий', id: 4},
-        ]
-      },
-      {
-        quizId: 2,
-        question: 'В каком году основали питер',
-        rightAnswerId: 3,
-        answers: [
-          {text: '1700', id: 1},
-          {text: '1702', id: 2},
-          {text: '1703', id: 3},
-          {text: '1802', id: 4},
-        ]
-      }
-    ]
+    quiz: [],
+    isLoading: true
   };
 
+  async componentDidMount() {
+    try{
+      const id = this.props.match.params.id;
+      console.log(id, 'id');
+      const response = await axios({
+        method: 'GET',
+        url: `/guizes/${id}.json`
+      });
+      const quiz = response.data;
+
+      this.setState({
+        quiz,
+        isLoading: false
+      })
+    } catch(e){
+      console.log(e);
+    }
+
+  }
 
   onAnswerClickHandle = (answerId) => {
     const { activeQuestion, quiz, answerState } = this.state;
+    console.log(answerId, 'guizes');
 
     const currentQuiz = quiz[activeQuestion];
 
@@ -101,7 +101,12 @@ class Quiz extends Component {
   }
 
   render() {
-    const { quiz, isFinished, activeQuestion, answerState, results } = this.state;
+    const { quiz, isFinished, activeQuestion, answerState, results, isLoading } = this.state;
+
+    if(isLoading){
+      return <Loader/>
+    }
+
     return (
       <div className="Quiz">
         <div className="Quiz__Wrapper">

@@ -4,7 +4,7 @@ import Button from "../../components/UI/Button/Button";
 import { createControl, validate, validateForm } from '../../form/formFramework';
 import Input from "../../components/UI/Input/Input";
 import Select from "../../components/UI/Select/Select";
-import axios from 'axios';
+import axios from '../../axiosInstance/axiosInstance';
 
 function createFormControls(){
   return {
@@ -39,7 +39,7 @@ class QuizCreator extends Component {
 
   state = {
     quiz: [],
-    rightAnswer: 1,
+    rightAnswerId: 1,
     isFormValid: false,
     formControls: createFormControls()
   };
@@ -69,7 +69,7 @@ class QuizCreator extends Component {
     quiz.push(questionItem);
     this.setState({
       quiz,
-      rightAnswer: 1,
+      rightAnswerId: null,
       isFormValid: false,
       formControls: createFormControls()
     })
@@ -77,14 +77,18 @@ class QuizCreator extends Component {
 
   handlerCreateQuestion = async () => {
     try{
-      const response = await axios.post('https://guiz-eaa7e.firebaseio.com/guizes.json', {
-        ...this.state.quiz
+      const response = await axios({
+        method: 'POST',
+        url: 'guizes.json',
+        data: {
+          ...this.state.quiz,
+          ...this.state.rightAnswerId
+        }
       });
-      console.log(response);
 
       this.setState({
         quiz: [],
-        rightAnswer: 1,
+        rightAnswerId: 1,
         isFormValid: false,
         formControls: createFormControls()
       })
@@ -109,7 +113,7 @@ class QuizCreator extends Component {
             errorMessage={currentControl.errorMessage}
             onChange={e => this.handlerChangeInput(e.target.value, controlName)}
           />
-          { index === 0 && <hr/>}
+          { index === 0 && <hr/> }
         </div>
       )
     })
@@ -132,7 +136,7 @@ class QuizCreator extends Component {
   };
 
   handlerSelectChange = (value) => {
-    this.setState({rightAnswer: value})
+    this.setState({rightAnswerId: value})
   };
 
 
