@@ -4,41 +4,19 @@ import ActiveQuiz from "../../components/ActiveQuiz/ActiveQuiz";
 import FinishedQuiz from "../../components/FinishedQuiz/FinishedQuiz";
 import axios from '../../axiosInstance/axiosInstance';
 import Loader from "../../components/UI/Loader/Loader";
+import { connect } from 'react-redux';
+import { fetchQuizById } from "../../store/actions/quize";
 
 class Quiz extends Component {
 
-  state = {
-    activeQuestion: 0,
-    answerState: {},
-    isFinished: false,
-    results: {},   //{[id]: success or error}
-    quiz: [],
-    isLoading: true
-  };
-
-  async componentDidMount() {
-    try{
-      const id = this.props.match.params.id;
-      console.log(id, 'id');
-      const response = await axios({
-        method: 'GET',
-        url: `/guizes/${id}.json`
-      });
-      const quiz = response.data;
-
-      this.setState({
-        quiz,
-        isLoading: false
-      })
-    } catch(e){
-      console.log(e);
-    }
-
+  componentDidMount() {
+    const { fetchQuizById } = this.props;
+    const id = this.props.match.params.id;
+    fetchQuizById(id);
   }
 
   onAnswerClickHandle = (answerId) => {
-    const { activeQuestion, quiz, answerState } = this.state;
-    console.log(answerId, 'guizes');
+    const { activeQuestion, quiz, answerState } = this.props;
 
     const currentQuiz = quiz[activeQuestion];
 
@@ -101,9 +79,9 @@ class Quiz extends Component {
   }
 
   render() {
-    const { quiz, isFinished, activeQuestion, answerState, results, isLoading } = this.state;
+    const { quiz, isFinished, activeQuestion, answerState, results, isLoading } = this.props;
 
-    if(isLoading){
+    if(isLoading || !quiz){
       return <Loader/>
     }
 
@@ -133,6 +111,24 @@ class Quiz extends Component {
       </div>
     );
   }
-}
+};
 
-export default Quiz;
+const mapStateToProps = state => {
+  const { quiz } = state;
+  return {
+    activeQuestion: quiz.activeQuestion,
+    answerState: quiz.answerState,
+    isFinished: quiz.isFinished,
+    results: quiz.results,
+    quiz: quiz.quiz,
+    loading: quiz.loading
+  }
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchQuizById: id => dispatch(fetchQuizById(id))
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Quiz);
