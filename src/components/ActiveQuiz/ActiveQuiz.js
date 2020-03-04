@@ -8,7 +8,7 @@ const ActiveQuiz = ({answers, question, onAnswerClickHandle, answerNumber, quizL
     <div className="ActiveQuiz">
       <p className="ActiveQuiz__Question">
         <span>
-          <strong>1.</strong>
+          <strong>{answerNumber}</strong>
           &nbsp;
           {question}
         </span>

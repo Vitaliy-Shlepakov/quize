@@ -96,35 +96,39 @@ export function quizAnswerClick(answerId) {
 
     const { activeQuestion, quiz, answerState } = state;
 
-    let results = state.results;
     if(answerState){
       const key = Object.keys(answerState)[0];
       if(answerState[key] === 'success') {
         return;
       }
-
     };
 
-    const currentQuiz = quiz[activeQuestion];
 
-    if(currentQuiz.rightAnswerId === answerId){
+    let results = state.results;
+    const question = quiz[activeQuestion];
 
-      if(!results[currentQuiz.quizId]){
+
+    if(question.rightAnswerId == answerId){
+      if(!results[question.quizId]){
         //запись результата
-        results[currentQuiz.quizId] = 'success'
+        results[question.id] = 'success';
+
+        console.log(question, 'question');
+        console.log(answerId, 'answerId');
+        console.log(results, 'results');
+        console.log(quiz, 'quiz');
       };
 
-      dispatch(quizSetState({[answerId]: 'success'}, results))
+      dispatch(quizSetState({[answerId]: 'success'}, results));
 
       if(state.activeQuestion + 1 === state.quiz.length){
-
         dispatch(finishQuiz());
       }else {
         dispatch(quizNextQuestion(state.activeQuestion + 1))
       }
     }else{
       //запись результата
-      results[currentQuiz.quizId] = 'error';
+      results[question.id] = 'error';
       dispatch(quizSetState({[answerId]: 'error'}, results))
     }
   }

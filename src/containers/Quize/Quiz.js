@@ -20,7 +20,8 @@ class Quiz extends Component {
   }
 
   render() {
-    const { quiz,
+    const {
+      quiz,
       isFinished,
       activeQuestion,
       answerState,
@@ -33,7 +34,7 @@ class Quiz extends Component {
     if(isLoading || !quiz){
       return <Loader/>
     }
-
+    console.log(results, 'results');
     return (
       <div className="Quiz">
         <div className="Quiz__Wrapper">
