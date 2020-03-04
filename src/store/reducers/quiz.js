@@ -3,7 +3,7 @@ import {
   FETCH_QUIZ_SUCCESS,
   FETCH_QUIZES_ERROR,
   FETCH_QUIZES_START,
-  FETCH_QUIZES_SUCCESS
+  FETCH_QUIZES_SUCCESS, FINISH_QUIZ, QUIZ_NEXT_QUIZ, QUIZ_SET_STATE, RETRY_QUIZ
 } from "../actions/actionsType";
 
 const initialState = {
@@ -57,6 +57,39 @@ export default function quizReducer(state=initialState, action){
         ...state,
         loading: false,
         error: action.payload.error
+      }
+    };
+
+    case QUIZ_SET_STATE: {
+      return {
+        ...state,
+        answerState: action.payload.answerState,
+        results: action.payload.results
+      }
+    };
+
+    case FINISH_QUIZ: {
+      return {
+        ...state,
+        isFinished: true
+      }
+    };
+
+    case QUIZ_NEXT_QUIZ: {
+      return {
+        ...state,
+        answerState: null,
+        activeQuestion: action.payload.activeNumber
+      }
+    };
+
+    case RETRY_QUIZ: {
+      return {
+        ...state,
+        activeQuestion: 0,
+        answerState: {},
+        isFinished: false,
+        results: {}
       }
     };
 

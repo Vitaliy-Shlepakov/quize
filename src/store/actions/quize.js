@@ -4,7 +4,8 @@ import {
   FETCH_QUIZES_SUCCESS,
   FETCH_QUIZES_ERROR,
   FETCH_QUIZ_SUCCESS,
-  FETCH_QUIZ_ERROR
+  FETCH_QUIZ_ERROR,
+  QUIZ_SET_STATE, FINISH_QUIZ, QUIZ_NEXT_QUIZ, RETRY_QUIZ
 } from "./actionsType";
 
 
@@ -77,8 +78,7 @@ export function fetchQuizById(quizId) {
       dispatch(fetchQuizError(e))
     }
   }
-
-}
+};
 
 export function fetchQuizSuccess(quiz) {
   return {
@@ -88,6 +88,81 @@ export function fetchQuizSuccess(quiz) {
     }
   }
 };
+
+export function quizAnswerClick(answerId) {
+  return (dispatch, getState) => {
+
+    const state = getState().quiz;
+
+    const { activeQuestion, quiz, answerState } = state;
+
+    let results = state.results;
+    if(answerState){
+      const key = Object.keys(answerState)[0];
+      if(answerState[key] === 'success') {
+        return;
+      }
+
+    };
+
+    const currentQuiz = quiz[activeQuestion];
+
+    if(currentQuiz.rightAnswerId === answerId){
+
+      if(!results[currentQuiz.quizId]){
+        //запись результата
+        results[currentQuiz.quizId] = 'success'
+      };
+
+      dispatch(quizSetState({[answerId]: 'success'}, results))
+
+      if(state.activeQuestion + 1 === state.quiz.length){
+
+        dispatch(finishQuiz());
+      }else {
+        dispatch(quizNextQuestion(state.activeQuestion + 1))
+      }
+    }else{
+      //запись результата
+      results[currentQuiz.quizId] = 'error';
+      dispatch(quizSetState({[answerId]: 'error'}, results))
+    }
+  }
+};
+
+export function quizSetState(answerState, results) {
+  return {
+    type: QUIZ_SET_STATE,
+    payload: {
+      answerState,
+      results
+    }
+  }
+};
+
+export function finishQuiz() {
+  return{
+    type: FINISH_QUIZ
+  }
+};
+
+export function quizNextQuestion(activeNumber) {
+  return {
+    type: QUIZ_NEXT_QUIZ,
+    payload: {
+      activeNumber
+    }
+  }
+};
+
+export function retryQuiz(){
+  return {
+    type: RETRY_QUIZ
+  }
+}
+
+
+
 
 export function fetchQuizError(error) {
   return {
