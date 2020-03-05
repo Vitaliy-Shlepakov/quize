@@ -28,8 +28,8 @@ const FinishedQuiz = ({results, quiz, onRetry}) => {
                  {quizItem.question}
                  <i className={classNames({
                    'fa': true,
-                   'fa-times error': results[quizItem.quizId] === 'error',
-                   'fa-check success': results[quizItem.quizId] === 'success'
+                   'fa-times error': results[quizItem.id] === 'error',
+                   'fa-check success': results[quizItem.id] === 'success'
                  })}></i>
                </li>
              )

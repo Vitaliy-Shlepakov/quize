@@ -107,16 +107,10 @@ export function quizAnswerClick(answerId) {
     let results = state.results;
     const question = quiz[activeQuestion];
 
-
     if(question.rightAnswerId == answerId){
-      if(!results[question.quizId]){
+      if(!results[question.id]){
         //запись результата
         results[question.id] = 'success';
-
-        console.log(question, 'question');
-        console.log(answerId, 'answerId');
-        console.log(results, 'results');
-        console.log(quiz, 'quiz');
       };
 
       dispatch(quizSetState({[answerId]: 'success'}, results));

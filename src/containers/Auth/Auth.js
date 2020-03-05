@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import './Auth.sass'
 import Button from "../../components/UI/Button/Button";
 import Input from "../../components/UI/Input/Input";
-import axios from 'axios';
+import { connect } from 'react-redux';
+import { auth } from '../../store/actions/auth';
 
 const validateEmail = email => {
   const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -43,40 +44,49 @@ class Auth extends Component {
     }
   };
 
-  handlerLogin = async () => {
+  handlerLogin = () => {
+
+    const { auth } = this.props;
     const { formControls: { email, password }} = this.state;
-    const data = {
-      email: email.value,
-      password: password.value,
-      returnSecureToken: true
-    };
-    try{
-      const response = await axios({
-        method: 'POST',
-        url: 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyC4MBxNODL4UYY1cjbnUQIDZPNnBv6F0xY',
-        data
-      })
-    }catch(e){
-      console.log(e);
-    }
+
+    auth(email, password, true);
+
+    // const data = {
+    //   email: email.value,
+    //   password: password.value,
+    //   returnSecureToken: true
+    // };
+    // try{
+    //   await axios({
+    //     method: 'POST',
+    //     url: 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyC4MBxNODL4UYY1cjbnUQIDZPNnBv6F0xY',
+    //     data
+    //   })
+    // }catch(e){
+    //   console.log(e);
+    // }
   };
 
-  handlerRegister = async () => {
+  handlerRegister = () => {
+    const { auth } = this.props;
     const { formControls: { email, password }} = this.state;
-    const data = {
-      email: email.value,
-      password: password.value,
-      returnSecureToken: true
-    };
-    try{
-      const response = await axios({
-        method: 'POST',
-        url: 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyC4MBxNODL4UYY1cjbnUQIDZPNnBv6F0xY',
-        data
-      })
-    }catch(e){
-      console.log(e);
-    }
+
+    auth(email, password, false);
+
+    // const data = {
+    //   email: email.value,
+    //   password: password.value,
+    //   returnSecureToken: true
+    // };
+    // try{
+    //   await axios({
+    //     method: 'POST',
+    //     url: 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyC4MBxNODL4UYY1cjbnUQIDZPNnBv6F0xY',
+    //     data
+    //   })
+    // }catch(e){
+    //   console.log(e);
+    // }
   };
 
   handlerSubmit = e => {
@@ -172,6 +182,12 @@ class Auth extends Component {
       </div>
     );
   }
+};
+
+function mapDispatchToProps(dispatch) {
+  return {
+    auth: (email, password, isLogin) => dispatch(auth(email, password, isLogin))
+  }
 }
 
-export default Auth;
+export default connect(null, mapDispatchToProps)(Auth);
