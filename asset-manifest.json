@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/artem_test/static/css/main.ac166b78.chunk.css",
+    "main.js": "/artem_test/static/js/main.da3d0fba.chunk.js",
+    "main.js.map": "/artem_test/static/js/main.da3d0fba.chunk.js.map",
+    "runtime-main.js": "/artem_test/static/js/runtime-main.e11e847e.js",
+    "runtime-main.js.map": "/artem_test/static/js/runtime-main.e11e847e.js.map",
+    "static/js/2.2597c243.chunk.js": "/artem_test/static/js/2.2597c243.chunk.js",
+    "static/js/2.2597c243.chunk.js.map": "/artem_test/static/js/2.2597c243.chunk.js.map",
+    "index.html": "/artem_test/index.html",
+    "precache-manifest.6a207b1e501be949a3bee04380ece4e8.js": "/artem_test/precache-manifest.6a207b1e501be949a3bee04380ece4e8.js",
+    "service-worker.js": "/artem_test/service-worker.js",
+    "static/css/main.ac166b78.chunk.css.map": "/artem_test/static/css/main.ac166b78.chunk.css.map",
+    "static/js/2.2597c243.chunk.js.LICENSE.txt": "/artem_test/static/js/2.2597c243.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.e11e847e.js",
+    "static/js/2.2597c243.chunk.js",
+    "static/css/main.ac166b78.chunk.css",
+    "static/js/main.da3d0fba.chunk.js"
+  ]
+}
