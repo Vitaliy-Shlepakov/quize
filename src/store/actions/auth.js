@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {AUTH_SUCCESS, LOG_OUT} from "./actionsType";
+import {AUTH_SUCCESS, AUTO_LOGIN, LOG_OUT} from "./actionsType";
 
 export function auth(email, password, isLogin) {
   return async dispatch => {
@@ -22,7 +22,7 @@ export function auth(email, password, isLogin) {
     });
 
     //время до которого токун актуален
-    const expirationDate = new Date(new Date().getTime() + response.data.expiresIn * 1000);
+    const expirationDate = response.data.expiresIn * 1000
 
     localStorage.setItem('token', 'response.data.idToken');
     localStorage.setItem('userId', 'response.data.idToken');
@@ -46,15 +46,21 @@ export function autoLogOut(time) {
   return dispatch => {
     setTimeout(() => {
       dispatch(logOut())
-    }, time * 1000)
+    }, time )
   }
 };
 
 export function logOut() {
-  localStorage.deleteItem('token');
-  localStorage.deleteItem('userId');
-  localStorage.deleteItem('expirationDate');
+  localStorage.removeItem('token');
+  localStorage.removeItem('userId');
+  localStorage.removeItem('expirationDate');
   return {
     type: LOG_OUT
+  }
+}
+
+export function autoLogin() {
+  return {
+    type: AUTO_LOGIN
   }
 }

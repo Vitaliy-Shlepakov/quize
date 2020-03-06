@@ -51,20 +51,6 @@ class Auth extends Component {
 
     auth(email, password, true);
 
-    // const data = {
-    //   email: email.value,
-    //   password: password.value,
-    //   returnSecureToken: true
-    // };
-    // try{
-    //   await axios({
-    //     method: 'POST',
-    //     url: 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyC4MBxNODL4UYY1cjbnUQIDZPNnBv6F0xY',
-    //     data
-    //   })
-    // }catch(e){
-    //   console.log(e);
-    // }
   };
 
   handlerRegister = () => {

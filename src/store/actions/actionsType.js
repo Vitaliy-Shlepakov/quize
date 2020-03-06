@@ -16,3 +16,4 @@ export const RESET_QUIZ_CREATION = 'RESET_QUIZ_CREATION';
 
 export const AUTH_SUCCESS = 'AUTH_SUCCESS';
 export const LOG_OUT = 'LOG_OUT';
+export const AUTO_LOGIN = 'AUTO_LOGIN';

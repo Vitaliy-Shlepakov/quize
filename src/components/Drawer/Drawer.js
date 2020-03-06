@@ -6,26 +6,10 @@ import { NavLink } from 'react-router-dom';
 
 class Drawer extends Component {
 
-  links = [
-    {
-      to: '/',
-      label: 'Список',
-      exact: true
-    },
-    {
-      to: '/auth',
-      label: 'Авторизация',
-      exact: true
-    },
-    {
-      to: '/quiz-creator',
-      label: 'Создать тест',
-      exact: true
-    },
-  ];
 
-  renderLinks = () => {
-    return this.links.map((link, index) => {
+
+  renderLinks = (links) => {
+    return links.map((link, index) => {
       return (
         <li key={index} className="Drawer__Item">
           <NavLink
@@ -41,7 +25,22 @@ class Drawer extends Component {
   };
 
   render() {
-    const { isOpen, handleBackDrop } = this.props;
+    const { isOpen, handleBackDrop, isLogin } = this.props;
+    let links = [
+      {
+        to: '/',
+        label: 'Список',
+        exact: true
+      }
+    ];
+
+    links = isLogin
+      ? [...links,
+          {to: '/quiz-creator', label: 'Создать тест', exact: false},
+          {to: '/logout', label: 'Выйти', exact: false}
+        ]
+      : [...links, {to: '/auth', label: 'Авторизация', exact: false}]
+
     return (
       <>
         <nav className={classNames({
@@ -49,7 +48,7 @@ class Drawer extends Component {
           'Drawer--Close': !isOpen
         })}>
           <ul className="Drawer__List">
-            { this.renderLinks() }
+            { this.renderLinks(links) }
           </ul>
         </nav>
         {
