@@ -22,14 +22,14 @@ export function auth(email, password, isLogin) {
     });
 
     //время до которого токун актуален
-    const expirationDate = response.data.expiresIn * 1000
+    const expirationDate = new Date(new Date().getTime() + response.data.expiresIn * 1000);
 
-    localStorage.setItem('token', 'response.data.idToken');
-    localStorage.setItem('userId', 'response.data.idToken');
-    localStorage.setItem('expirationDate', `${expirationDate}`);
+    localStorage.setItem('token', response.data.idToken);
+    localStorage.setItem('userId', response.data.localId);
+    localStorage.setItem('expirationDate', expirationDate);
 
     dispatch(authSuccess(response.data.idToken));
-    dispatch(autoLogOut(expirationDate));
+    dispatch(autoLogOut((expirationDate.getTime() - new Date().getTime())));
   }
 }
 
@@ -60,7 +60,18 @@ export function logOut() {
 }
 
 export function autoLogin() {
-  return {
-    type: AUTO_LOGIN
+  return dispatch => {
+    const token = localStorage.getItem('token');
+    if(!token){
+      dispatch(logOut())
+    }else{
+      const expirationDate = new Date(localStorage.getItem('expirationDate'));
+      if(expirationDate < new Date()){
+        dispatch(logOut())
+      }else{
+        dispatch(authSuccess(token));
+        dispatch(autoLogOut((expirationDate.getTime() - new Date().getTime()) / 1000));
+      }
+    }
   }
 }
