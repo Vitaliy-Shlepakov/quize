@@ -66,11 +66,14 @@ export function autoLogin() {
       dispatch(logOut())
     }else{
       const expirationDate = new Date(localStorage.getItem('expirationDate'));
+      console.log(expirationDate, 'expirationDate');
+      console.log(new Date(), 'new Date()');
+      console.log(expirationDate < new Date(), 'DIFF');
       if(expirationDate < new Date()){
         dispatch(logOut())
       }else{
         dispatch(authSuccess(token));
-        dispatch(autoLogOut((expirationDate.getTime() - new Date().getTime()) / 1000));
+        dispatch(autoLogOut((expirationDate.getTime() - new Date().getTime())));
       }
     }
   }
